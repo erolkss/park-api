@@ -2,9 +2,9 @@ package br.com.ero.demoparkapi.service;
 
 import br.com.ero.demoparkapi.config.entity.User;
 import br.com.ero.demoparkapi.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -14,5 +14,13 @@ public class UserService {
     @Transactional
     public User saveUser(User user) {
         return userRepository.save(user);
+    }
+
+
+    @Transactional(readOnly = true)
+    public User getById(Long id) {
+        return userRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("User not found")
+        );
     }
 }
