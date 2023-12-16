@@ -3,6 +3,7 @@ package br.com.ero.demoparkapi.web.controller;
 import br.com.ero.demoparkapi.config.entity.User;
 import br.com.ero.demoparkapi.service.UserService;
 import br.com.ero.demoparkapi.web.dto.UserCreateDto;
+import br.com.ero.demoparkapi.web.dto.UserPasswordDto;
 import br.com.ero.demoparkapi.web.dto.UserResponseDto;
 import br.com.ero.demoparkapi.web.dto.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -31,9 +32,9 @@ public class UserController {
     }
 
     @PatchMapping(path = "/{id}")
-    public ResponseEntity<User> UpdatePasswordUser(@PathVariable Long id, @RequestBody User user) {
-        User user1 = userService.editPassword(id, user.getPassword());
-        return ResponseEntity.ok(user1);
+    public ResponseEntity<Void> UpdatePasswordUser(@PathVariable Long id, @RequestBody UserPasswordDto userPasswordDto) {
+        User user1 = userService.editPassword(id, userPasswordDto.getCurrentPassword(), userPasswordDto.getNewPassword(), userPasswordDto.getConfirmPassword());
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping
