@@ -2,12 +2,18 @@ package br.com.ero.demoparkapi.web.dto;
 
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @ToString
 public class UserCreateDto {
-    @Email(regexp = "", message = "Invalid email format")
+
+    @NotBlank
+    @Email(regexp = "^[a-z0-9.+-]+@[a-z--9.-]+\\\\.[a-z]{2,}$", message = "Invalid email format")
     private String username;
+    @NotBlank
+    @Size(min = 6, max = 6)
     private String password;
 
 
