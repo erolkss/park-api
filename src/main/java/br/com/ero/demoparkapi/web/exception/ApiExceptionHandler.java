@@ -1,5 +1,6 @@
 package br.com.ero.demoparkapi.web.exception;
 
+import br.com.ero.demoparkapi.exception.EntityNotFoundException;
 import br.com.ero.demoparkapi.exception.UserNameUniqueViolationException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,7 @@ public class ApiExceptionHandler {
 
     }
     @ExceptionHandler(UserNameUniqueViolationException.class)
-    public ResponseEntity<ErrorMessage> methodArgumentNotValidException(
+    public ResponseEntity<ErrorMessage> uniqueViolationException(
             RuntimeException exception,
             HttpServletRequest httpServletRequest) {
 
@@ -37,6 +38,19 @@ public class ApiExceptionHandler {
                 .status(HttpStatus.CONFLICT)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new ErrorMessage(httpServletRequest, HttpStatus.CONFLICT, exception.getMessage()));
+
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorMessage> entityNotFoundException(
+            RuntimeException exception,
+            HttpServletRequest httpServletRequest) {
+
+        log.error("Api Error: " + exception);
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(httpServletRequest, HttpStatus.NOT_FOUND, exception.getMessage()));
 
     }
 

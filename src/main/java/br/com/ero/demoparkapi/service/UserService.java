@@ -1,6 +1,7 @@
 package br.com.ero.demoparkapi.service;
 
 import br.com.ero.demoparkapi.config.entity.User;
+import br.com.ero.demoparkapi.exception.EntityNotFoundException;
 import br.com.ero.demoparkapi.exception.UserNameUniqueViolationException;
 import br.com.ero.demoparkapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public User getById(Long id) {
         return userRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("User not found")
+                () -> new EntityNotFoundException(String.format("User Id {%s} Not Found", id))
         );
     }
 
