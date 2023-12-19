@@ -1,5 +1,6 @@
 package br.com.ero.demoparkapi.web.exception;
 
+import br.com.ero.demoparkapi.exception.UserNameUniqueViolationException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
 @RestControllerAdvice
-public class EpiExceptionHandler {
+public class ApiExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorMessage> methodArgumentNotValidException(
             MethodArgumentNotValidException exception,
@@ -26,4 +27,17 @@ public class EpiExceptionHandler {
                 .body(new ErrorMessage(httpServletRequest, HttpStatus.UNPROCESSABLE_ENTITY, "Invalid Fields", bindingResult));
 
     }
+    @ExceptionHandler(UserNameUniqueViolationException.class)
+    public ResponseEntity<ErrorMessage> methodArgumentNotValidException(
+            RuntimeException exception,
+            HttpServletRequest httpServletRequest) {
+
+        log.error("Api Error: " + exception);
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(httpServletRequest, HttpStatus.CONFLICT, exception.getMessage()));
+
+    }
+
 }
