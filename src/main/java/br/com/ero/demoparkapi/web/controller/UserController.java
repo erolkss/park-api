@@ -69,7 +69,13 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-
+    @Operation(
+            summary = "Retrieve All Users", description = "Retrieve All Users",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Resources retrieved successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class))),
+                    @ApiResponse(responseCode = "404", description = "Recursos não recuperados", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
+            }
+    )
     @GetMapping
     public ResponseEntity<List<UserResponseDto>> getAllUser() {
         List<User> users = userService.getAll();
