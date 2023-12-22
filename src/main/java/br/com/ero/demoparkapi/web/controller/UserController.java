@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Tag(name = "users", description = "Contains all operations related to resources for registering, editing and reading a user")
-
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/v1/users")
