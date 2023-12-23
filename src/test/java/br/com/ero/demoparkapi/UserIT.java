@@ -176,4 +176,19 @@ public class UserIT {
 
     }
 
+    @Test
+    public void updatePassword_IdNoneExistent_ReturnErrorMessageHttpStatus404() {
+        ErrorMessage responseBody = testClient
+                .patch()
+                .uri("/api/v1/users/0")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(new UserPasswordDto("123456", "654321", "654321"))
+                .exchange()
+                .expectStatus().isNotFound()
+                .expectBody(ErrorMessage.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(404);
+    }
 }
