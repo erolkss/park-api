@@ -149,4 +149,18 @@ public class UserIT {
         org.assertj.core.api.Assertions.assertThat(responseBody.getRole()).isEqualTo("ADMIN");
     }
 
+    @Test
+    public void getUser_IdNoneExistent_ReturnErrorMessageHttpStatus404() {
+        ErrorMessage responseBody = testClient
+                .get()
+                .uri("/api/v1/users/0")
+                .exchange()
+                .expectStatus().isNotFound()
+                .expectBody(ErrorMessage.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(404);
+    }
+
 }
