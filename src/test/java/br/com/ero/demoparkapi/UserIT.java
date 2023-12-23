@@ -1,6 +1,7 @@
 package br.com.ero.demoparkapi;
 
 import br.com.ero.demoparkapi.web.dto.UserCreateDto;
+import br.com.ero.demoparkapi.web.dto.UserPasswordDto;
 import br.com.ero.demoparkapi.web.dto.UserResponseDto;
 import br.com.ero.demoparkapi.web.exception.ErrorMessage;
 import org.junit.jupiter.api.Test;
@@ -161,6 +162,18 @@ public class UserIT {
 
         org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
         org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(404);
+    }
+
+    @Test
+    public void updatePassword_DataValid_ReturnHttpStatus204() {
+        testClient
+                .patch()
+                .uri("/api/v1/users/100")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(new UserPasswordDto("123456", "654321", "654321"))
+                .exchange()
+                .expectStatus().isNoContent();
+
     }
 
 }
