@@ -2,6 +2,7 @@ package br.com.ero.demoparkapi.service;
 
 import br.com.ero.demoparkapi.config.entity.User;
 import br.com.ero.demoparkapi.exception.EntityNotFoundException;
+import br.com.ero.demoparkapi.exception.PasswordInvalidException;
 import br.com.ero.demoparkapi.exception.UserNameUniqueViolationException;
 import br.com.ero.demoparkapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,12 +39,12 @@ public class UserService {
     public User editPassword(Long id, String currentPassword, String newPassword, String confirmPassword) {
 
         if (!newPassword.equals(confirmPassword)){
-            throw new RuntimeException("New Password and Confirm Password are different");
+            throw new PasswordInvalidException("New Password and Confirm Password are different");
         }
-        User user = getById(id);
 
+        User user = getById(id);
         if (!user.getPassword().equals(currentPassword)) {
-            throw new RuntimeException("Your password does not match");
+            throw new PasswordInvalidException("Your password does not match");
         }
         user.setPassword(newPassword);
         return user;

@@ -1,6 +1,7 @@
 package br.com.ero.demoparkapi.web.exception;
 
 import br.com.ero.demoparkapi.exception.EntityNotFoundException;
+import br.com.ero.demoparkapi.exception.PasswordInvalidException;
 import br.com.ero.demoparkapi.exception.UserNameUniqueViolationException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -51,6 +52,19 @@ public class ApiExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new ErrorMessage(httpServletRequest, HttpStatus.NOT_FOUND, exception.getMessage()));
+
+    }
+
+    @ExceptionHandler(PasswordInvalidException.class)
+    public ResponseEntity<ErrorMessage> passwordInvalidException(
+            RuntimeException exception,
+            HttpServletRequest httpServletRequest) {
+
+        log.error("Api Error: " + exception);
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(httpServletRequest, HttpStatus.BAD_REQUEST, exception.getMessage()));
 
     }
 

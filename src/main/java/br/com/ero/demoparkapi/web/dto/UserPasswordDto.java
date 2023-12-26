@@ -10,7 +10,6 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class UserPasswordDto {
-    
     @NotBlank
     @Size(min = 6, max = 6)
     private String currentPassword;
