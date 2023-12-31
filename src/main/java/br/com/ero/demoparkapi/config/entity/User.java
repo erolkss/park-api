@@ -2,20 +2,22 @@ package br.com.ero.demoparkapi.config.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter @Setter @NoArgsConstructor
-@Entity
 @Table(name = "users")
+@Entity(name = "users")
+@EntityListeners(AuditingEntityListener.class)
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_user")
     private Long id;
-    @Column(name = "name", nullable = false, unique = true, length = 100)
+    @Column(name = "username", nullable = false, unique = true, length = 100)
     private String username;
     @Column(name = "password", nullable = false, length = 200)
     private String password;

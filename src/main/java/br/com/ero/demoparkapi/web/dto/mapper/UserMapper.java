@@ -5,8 +5,6 @@ import br.com.ero.demoparkapi.web.dto.UserCreateDto;
 import br.com.ero.demoparkapi.web.dto.UserResponseDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
-import org.springframework.boot.context.properties.PropertyMapper;
-
 import java.util.List;
 import java.util.stream.Collectors;
 

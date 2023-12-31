@@ -16,6 +16,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -60,13 +62,13 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public User getUserName(String username) {
-        return userRepository.findByUserName(username).orElseThrow(
+        return userRepository.findByUsername(username).orElseThrow(
                 () -> new EntityNotFoundException(String.format("User to username {%s} Not Found", username))
         );
     }
 
     @Transactional(readOnly = true)
     public User.Role getRoleByUserName(String username) {
-        return userRepository.findRoleByUserName(username);
+        return userRepository.findRoleByUsername(username);
     }
 }
