@@ -50,7 +50,7 @@ public class UserController {
             }
     )
     @GetMapping(path = "/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') OR ( hasRole('CLIENT') AND #id == authentication.principal.id)")
     public ResponseEntity<UserResponseDto> getByIdUser(@PathVariable Long id) {
         User user1 = userService.getById(id);
         return ResponseEntity.ok(UserMapper.toDto(user1));
