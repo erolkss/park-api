@@ -2,6 +2,10 @@ package br.com.ero.demoparkapi.config.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serializable;
@@ -24,10 +28,16 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false, length = 25)
     private Role role = Role.ROLE_CLIENT;
+    @CreatedDate
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
+    @LastModifiedDate
+    @Column(name = "modification_date")
+    private LocalDateTime modificationDate;
+    @CreatedBy
     @Column(name = "create_by")
     private String createBy;
+    @LastModifiedBy
     @Column(name = "modified_by")
     private String modifiedBy;
 
