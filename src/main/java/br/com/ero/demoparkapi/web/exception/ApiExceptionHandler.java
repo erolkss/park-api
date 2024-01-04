@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ApiExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorMessage> accessDeniedException(
-            AccessDeniedException() exception,
+            AccessDeniedException exception,
             HttpServletRequest httpServletRequest) {
 
         log.error("Api Error: " + exception);
