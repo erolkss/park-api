@@ -66,6 +66,7 @@ public class UserController {
             }
     )
     @PatchMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'CLIENT') AND (#id == authentication.principal.id)")
     public ResponseEntity<Void> updatePasswordUser(@PathVariable Long id, @Valid @RequestBody UserPasswordDto userPasswordDto) {
         User user = userService.editPassword(id, userPasswordDto.getCurrentPassword(), userPasswordDto.getNewPassword(), userPasswordDto.getConfirmPassword());
         return ResponseEntity.noContent().build();
