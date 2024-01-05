@@ -1,3 +1,3 @@
-insert into users(id_user, name, password, role) values (100, 'ana@email.com', '123456', 'ROLE_ADMIN');
-insert into users(id_user, name, password, role) values (101, 'bia@email.com', '123456', 'ROLE_CLIENT');
-insert into users(id_user, name, password, role) values (102, 'bob@email.com', '123456', 'ROLE_CLIENT');
+insert into users(id_user, username, password, role) values (100, 'ana@email.com', '$2a$10$GWq9ghBfi452Crgs5ja0QeLx9E47D0bdm7hOurFv1bcqFNF/Cosx2', 'ROLE_ADMIN');
+insert into users(id_user, username, password, role) values (101, 'bia@email.com', '$2a$10$GWq9ghBfi452Crgs5ja0QeLx9E47D0bdm7hOurFv1bcqFNF/Cosx2', 'ROLE_CLIENT');
+insert into users(id_user, username, password, role) values (102, 'bob@email.com', '$2a$10$GWq9ghBfi452Crgs5ja0QeLx9E47D0bdm7hOurFv1bcqFNF/Cosx26', 'ROLE_CLIENT');
