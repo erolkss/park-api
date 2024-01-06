@@ -196,6 +196,7 @@ public class UserIT {
         org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
         org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(404);
     }
+
     @Test
     public void getUser_customerUserLookingForAnotherCustomer_ReturnErrorMessageHttpStatus403() {
         ErrorMessage responseBody = testClient
@@ -355,4 +356,18 @@ public class UserIT {
         org.assertj.core.api.Assertions.assertThat(responseBody.size()).isEqualTo(3);
     }
 
+    @Test
+    public void listUsers_UserWithoutPermission_ReturnErrorMessageHttpStatus403() {
+        ErrorMessage responseBody = testClient
+                .get()
+                .uri("/api/v1/users")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "bia@email.com", "123456"))
+                .exchange()
+                .expectStatus().isForbidden()
+                .expectBody(ErrorMessage.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(403);
+    }
 }
