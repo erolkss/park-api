@@ -62,4 +62,33 @@ public class AuthenticationIT {
         org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(400);
 
     }
+
+    @Test
+    public void Authenticate_WithInvalidUsername_ReturnErrorMessageHttpStatus422(){
+        ErrorMessage responseBody = testClient
+                .post()
+                .uri("/api/v1/auth")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(new UserLoginDto("", "123456"))
+                .exchange()
+                .expectStatus().isEqualTo(422)
+                .expectBody(ErrorMessage.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(422);
+
+        responseBody = testClient
+                .post()
+                .uri("/api/v1/auth")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(new UserLoginDto("@email.com", "123456"))
+                .exchange()
+                .expectStatus().isEqualTo(422)
+                .expectBody(ErrorMessage.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(422);
+    }
 }
