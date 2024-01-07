@@ -357,7 +357,7 @@ public class UserIT {
     }
 
     @Test
-    public void listUsers_UserWithoutPermission_ReturnErrorMessageHttpStatus403() {
+        public void listUsers_UserWithoutPermission_ReturnErrorMessageHttpStatus403() {
         ErrorMessage responseBody = testClient
                 .get()
                 .uri("/api/v1/users")
