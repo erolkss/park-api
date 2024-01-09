@@ -1,0 +1,25 @@
+package br.com.ero.demoparkapi.service;
+
+import br.com.ero.demoparkapi.config.entity.Client;
+import br.com.ero.demoparkapi.exception.CpfUniqueViolationException;
+import br.com.ero.demoparkapi.repository.ClientRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@RequiredArgsConstructor
+public class ClientService {
+
+    private final ClientRepository clientRepository;
+
+    @Transactional
+    public Client saveClient(Client client) throws CpfUniqueViolationException {
+        try {
+            return clientRepository.save(client);
+        } catch (DataIntegrityViolationException ex) {
+            throw new CpfUniqueViolationException(String.format("CPF '%s' cannot be registered already exists in the system", client.getCpf()));
+        }
+    }
+}

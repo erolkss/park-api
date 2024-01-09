@@ -11,10 +11,11 @@ import org.modelmapper.ModelMapper;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ClientMapper {
 
-    private static Client toClient(ClientCreateDto dto){
+    public static Client toClient(ClientCreateDto dto) {
         return new ModelMapper().map(dto, Client.class);
     }
-    private static ClientResponseDto toDto(Client client){
+
+    public static ClientResponseDto toDto(Client client) {
         return new ModelMapper().map(client, ClientResponseDto.class);
     }
 }
