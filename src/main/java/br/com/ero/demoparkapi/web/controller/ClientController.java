@@ -43,7 +43,7 @@ public class ClientController {
     )
     @PostMapping
     @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<ClientResponseDto> createClient(@RequestBody @Valid ClientCreateDto dto, @AuthenticationPrincipal JwtUserDetails userDetails){
+    public ResponseEntity<ClientResponseDto> createClient(@RequestBody @Valid ClientCreateDto dto, @AuthenticationPrincipal JwtUserDetails userDetails) {
         Client client = ClientMapper.toClient(dto);
         client.setUser(userService.getById(userDetails.getId()));
         clientService.saveClient(client);
@@ -51,9 +51,18 @@ public class ClientController {
 
     }
 
+    @Operation(
+            summary = "Search Client", description = "Resource to search Client for By ID \n" +
+            "\"Request requires use of a Bearer Token. Access Restricted to Role = 'ADMIN'\"",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Resource located successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponseDto.class))),
+                    @ApiResponse(responseCode = "404", description = "Client not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
+                    @ApiResponse(responseCode = "403", description = "Resources not allowed to the CLIENT profile", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
+            }
+    )
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ClientResponseDto> getByIdClient(@PathVariable Long id){
+    public ResponseEntity<ClientResponseDto> getByIdClient(@PathVariable Long id) {
         Client client = clientService.getId(id);
         return ResponseEntity.ok(ClientMapper.toDto(client));
     }
