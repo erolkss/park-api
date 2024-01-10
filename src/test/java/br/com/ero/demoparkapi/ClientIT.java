@@ -101,4 +101,22 @@ public class ClientIT {
 
     }
 
+    @Test
+    public void createClient_UserNotAllowed_ReturnErrorMessageStatus403() {
+        ErrorMessage responseBody = testClient
+                .post()
+                .uri("/api/v1/clients")
+                .contentType(MediaType.APPLICATION_JSON)
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@email.com", "123456"))
+                .bodyValue(new ClientCreateDto("Tobias Ferreira", "44504393093"))
+                .exchange()
+                .expectStatus().isForbidden()
+                .expectBody(ErrorMessage.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(403);
+
+    }
+
 }
