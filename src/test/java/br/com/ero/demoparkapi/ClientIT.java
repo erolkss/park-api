@@ -136,4 +136,22 @@ public class ClientIT {
 
     }
 
+
+    @Test
+    public void searchClient_ClientNoneExistingWithAdmin_ReturnErrorMessageStatus404() {
+        ErrorMessage responseBody = testClient
+                .get()
+                .uri("/api/v1/clients/0")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@email.com", "123456"))
+                .exchange()
+                .expectStatus().isNotFound()
+                .expectBody(ErrorMessage.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(404);
+
+    }
+
+
 }
