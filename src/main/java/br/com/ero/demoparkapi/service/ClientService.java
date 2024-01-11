@@ -6,8 +6,12 @@ import br.com.ero.demoparkapi.exception.EntityNotFoundException;
 import br.com.ero.demoparkapi.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -29,5 +33,9 @@ public class ClientService {
         return clientRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException(String.format("Client id=%s - Not found in the system", id))
         );
+    }
+    @Transactional(readOnly = true)
+    public Page<Client> getAll(Pageable pageable) {
+        return clientRepository.findAll(pageable);
     }
 }

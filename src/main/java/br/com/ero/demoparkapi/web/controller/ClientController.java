@@ -17,10 +17,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "Clients", description = "Contains all operations related to a client's resource")
 @RestController
@@ -65,5 +69,12 @@ public class ClientController {
     public ResponseEntity<ClientResponseDto> getByIdClient(@PathVariable Long id) {
         Client client = clientService.getId(id);
         return ResponseEntity.ok(ClientMapper.toDto(client));
+    }
+
+    @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Page<Client>> getAllClient(Pageable pageable) {
+        Page<Client> client = clientService.getAll(pageable);
+        return ResponseEntity.ok(client);
     }
 }
