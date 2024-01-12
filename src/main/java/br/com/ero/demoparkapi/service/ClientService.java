@@ -4,14 +4,13 @@ import br.com.ero.demoparkapi.config.entity.Client;
 import br.com.ero.demoparkapi.exception.CpfUniqueViolationException;
 import br.com.ero.demoparkapi.exception.EntityNotFoundException;
 import br.com.ero.demoparkapi.repository.ClientRepository;
+import br.com.ero.demoparkapi.repository.projection.ClientProjection;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +34,7 @@ public class ClientService {
         );
     }
     @Transactional(readOnly = true)
-    public Page<Client> getAll(Pageable pageable) {
-        return clientRepository.findAll(pageable);
+    public Page<ClientProjection> getAll(Pageable pageable) {
+        return clientRepository.findAllPageable(pageable);
     }
 }

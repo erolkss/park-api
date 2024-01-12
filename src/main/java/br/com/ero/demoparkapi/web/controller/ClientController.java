@@ -2,12 +2,15 @@ package br.com.ero.demoparkapi.web.controller;
 
 import br.com.ero.demoparkapi.config.entity.Client;
 import br.com.ero.demoparkapi.jwt.JwtUserDetails;
+import br.com.ero.demoparkapi.repository.projection.ClientProjection;
 import br.com.ero.demoparkapi.service.ClientService;
 import br.com.ero.demoparkapi.service.UserService;
 import br.com.ero.demoparkapi.web.dto.ClientCreateDto;
 import br.com.ero.demoparkapi.web.dto.ClientResponseDto;
+import br.com.ero.demoparkapi.web.dto.PageableDto;
 import br.com.ero.demoparkapi.web.dto.UserResponseDto;
 import br.com.ero.demoparkapi.web.dto.mapper.ClientMapper;
+import br.com.ero.demoparkapi.web.dto.mapper.PageableMapper;
 import br.com.ero.demoparkapi.web.exception.ErrorMessage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -73,8 +76,8 @@ public class ClientController {
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Page<Client>> getAllClient(Pageable pageable) {
-        Page<Client> client = clientService.getAll(pageable);
-        return ResponseEntity.ok(client);
+    public ResponseEntity<PageableDto> getAllClient(Pageable pageable) {
+        Page<ClientProjection> client = clientService.getAll(pageable);
+        return ResponseEntity.ok(PageableMapper.toDto(client));
     }
 }
