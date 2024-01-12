@@ -201,5 +201,20 @@ public class ClientIT {
         org.assertj.core.api.Assertions.assertThat(responseBody.getTotalPages()).isEqualTo(2);
 
     }
+    @Test
+    public void getClientsList_WithPageableForClient_ReturnErrorMessageStatus403() {
+        ErrorMessage responseBody = testClient
+                .get()
+                .uri("/api/v1/clients")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "bia@email.com", "123456"))
+                .exchange()
+                .expectStatus().isForbidden()
+                .expectBody(ErrorMessage.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(403);
+
+    }
 
 }
