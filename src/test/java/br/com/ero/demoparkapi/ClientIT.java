@@ -186,5 +186,20 @@ public class ClientIT {
         org.assertj.core.api.Assertions.assertThat(responseBody.getNumber()).isEqualTo(0);
         org.assertj.core.api.Assertions.assertThat(responseBody.getTotalPages()).isEqualTo(1);
 
+        responseBody = testClient
+                .get()
+                .uri("/api/v1/clients?size=1&page=1")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@email.com", "123456"))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(PageableDto.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getContent().size()).isEqualTo(1);
+        org.assertj.core.api.Assertions.assertThat(responseBody.getNumber()).isEqualTo(1);
+        org.assertj.core.api.Assertions.assertThat(responseBody.getTotalPages()).isEqualTo(2);
+
     }
+
 }
