@@ -85,9 +85,9 @@ public class ClientController {
             description = "Request requires use of a Bearer Token. Access Restricted to Role = 'ADMIN'",
             security = @SecurityRequirement(name = "security"),
             parameters = {
-                    @Parameter(in = QUERY, name = "page", content = @Content(schema = @Schema(type = "integer", defaultValue = "0")),description = "Represents the returned page"),
-                    @Parameter(in = QUERY, name = "size", content = @Content(schema = @Schema(type = "integer", defaultValue = "20")),description = "Represents the total number of elements per page"),
-                    @Parameter(in = QUERY, hidden = true, name = "sort", content = @Content(schema = @Schema(type = "string", defaultValue = "id,asc")),description = "Represents the ordering of results. Multiple sorting criteria are supported.")
+                    @Parameter(in = QUERY, name = "page", content = @Content(schema = @Schema(type = "integer", defaultValue = "0")), description = "Represents the returned page"),
+                    @Parameter(in = QUERY, name = "size", content = @Content(schema = @Schema(type = "integer", defaultValue = "20")), description = "Represents the total number of elements per page"),
+                    @Parameter(in = QUERY, hidden = true, name = "sort", content = @Content(schema = @Schema(type = "string", defaultValue = "id,asc")), description = "Represents the ordering of results. Multiple sorting criteria are supported.")
 
             },
             responses = {
@@ -98,8 +98,17 @@ public class ClientController {
     )
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
+
     public ResponseEntity<PageableDto> getAllClient(@Parameter(hidden = true) @PageableDefault(size = 4, sort = {"name"}) Pageable pageable) {
         Page<ClientProjection> client = clientService.getAll(pageable);
         return ResponseEntity.ok(PageableMapper.toDto(client));
     }
+
+    @GetMapping("/details")
+    @PreAuthorize("hasRole('CLIENT')")
+    public ResponseEntity<ClientResponseDto> getDetails(@AuthenticationPrincipal JwtUserDetails userDetails) {
+        Client client = clientService.getByUserId(userDetails.getId());
+        return ResponseEntity.ok(ClientMapper.toDto(client));
+    }
+
 }
