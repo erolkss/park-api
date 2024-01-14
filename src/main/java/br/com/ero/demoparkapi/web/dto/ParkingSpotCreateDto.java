@@ -19,3 +19,4 @@ public class ParkingSpotCreateDto {
     @NotBlank
     @Pattern(regexp = "FREE|BUSY")
     private String status;
+}
