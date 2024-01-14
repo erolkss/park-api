@@ -1,9 +1,6 @@
 package br.com.ero.demoparkapi.web.exception;
 
-import br.com.ero.demoparkapi.exception.CpfUniqueViolationException;
-import br.com.ero.demoparkapi.exception.EntityNotFoundException;
-import br.com.ero.demoparkapi.exception.PasswordInvalidException;
-import br.com.ero.demoparkapi.exception.UserNameUniqueViolationException;
+import br.com.ero.demoparkapi.exception.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -44,7 +41,7 @@ public class ApiExceptionHandler {
                 .body(new ErrorMessage(httpServletRequest, HttpStatus.UNPROCESSABLE_ENTITY, "Invalid Fields", bindingResult));
 
     }
-    @ExceptionHandler({UserNameUniqueViolationException.class, CpfUniqueViolationException.class})
+    @ExceptionHandler({UserNameUniqueViolationException.class, CpfUniqueViolationException.class, CodeUniqueViolationException.class})
     public ResponseEntity<ErrorMessage> uniqueViolationException(
             RuntimeException exception,
             HttpServletRequest httpServletRequest) {
