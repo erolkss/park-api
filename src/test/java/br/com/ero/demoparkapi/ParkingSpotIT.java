@@ -45,4 +45,32 @@ public class ParkingSpotIT {
                 .jsonPath("method").isEqualTo("POST")
                 .jsonPath("path").isEqualTo("/api/v1/parkingSpot");
     }
+
+    @Test
+    public void createParkingSpot_DataInvalid_CodeReturnErrorMessageStatus422(){
+        testClient
+                .post()
+                .uri("/api/v1/parkingSpot")
+                .contentType(MediaType.APPLICATION_JSON)
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@email.com", "123456"))
+                .bodyValue(new ParkingSpotCreateDto("", ""))
+                .exchange()
+                .expectStatus().isEqualTo(422)
+                .expectBody()
+                .jsonPath("status").isEqualTo(422)
+                .jsonPath("method").isEqualTo("POST")
+                .jsonPath("path").isEqualTo("/api/v1/parkingSpot");
+        testClient
+                .post()
+                .uri("/api/v1/parkingSpot")
+                .contentType(MediaType.APPLICATION_JSON)
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@email.com", "123456"))
+                .bodyValue(new ParkingSpotCreateDto("A-012", "LAL"))
+                .exchange()
+                .expectStatus().isEqualTo(422)
+                .expectBody()
+                .jsonPath("status").isEqualTo(422)
+                .jsonPath("method").isEqualTo("POST")
+                .jsonPath("path").isEqualTo("/api/v1/parkingSpot");
+    }
 }
