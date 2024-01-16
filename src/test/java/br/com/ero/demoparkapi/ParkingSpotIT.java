@@ -31,7 +31,7 @@ public class ParkingSpotIT {
     }
 
     @Test
-    public void createParkingSpot_CodeExisting_CodeReturnErrorMessageStatus409(){
+    public void createParkingSpot_ExistingCode_ReturnErrorMessageStatus409(){
         testClient
                 .post()
                 .uri("/api/v1/parkingSpot")
@@ -47,7 +47,7 @@ public class ParkingSpotIT {
     }
 
     @Test
-    public void createParkingSpot_DataInvalid_CodeReturnErrorMessageStatus422(){
+    public void createParkingSpot_DataInvalid_ReturnErrorMessageStatus422(){
         testClient
                 .post()
                 .uri("/api/v1/parkingSpot")
@@ -75,7 +75,7 @@ public class ParkingSpotIT {
     }
 
     @Test
-    public void getParkingSpot_CodeExisting_CodeReturnStatus200(){
+    public void getParkingSpot_ExistingCode_ReturnStatus200(){
         testClient
                 .get()
                 .uri("/api/v1/parkingSpot/{code}", "A-01")
@@ -86,5 +86,19 @@ public class ParkingSpotIT {
                 .jsonPath("id").isEqualTo(10)
                 .jsonPath("code").isEqualTo("A-01")
                 .jsonPath("status").isEqualTo("FREE");
+    }
+
+    @Test
+    public void getParkingSpot_NoneExistingCode_ReturnErrorMessageStatus404(){
+        testClient
+                .get()
+                .uri("/api/v1/parkingSpot/{code}", "A-10")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@email.com", "123456"))
+                .exchange()
+                .expectStatus().isNotFound()
+                .expectBody()
+                .jsonPath("status").isEqualTo(404)
+                .jsonPath("method").isEqualTo(  "GET")
+                .jsonPath("path").isEqualTo("/api/v1/parkingSpot/A-10");
     }
 }
