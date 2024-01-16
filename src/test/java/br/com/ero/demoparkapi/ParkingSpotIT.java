@@ -29,4 +29,20 @@ public class ParkingSpotIT {
                 .expectStatus().isCreated()
                 .expectHeader().exists(HttpHeaders.LOCATION);
     }
+
+    @Test
+    public void createParkingSpot_Existing_CodeReturnErrorMessageStatus409(){
+        testClient
+                .post()
+                .uri("/api/v1/parkingSpot")
+                .contentType(MediaType.APPLICATION_JSON)
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@email.com", "123456"))
+                .bodyValue(new ParkingSpotCreateDto("A-01", "FREE"))
+                .exchange()
+                .expectStatus().isEqualTo(409)
+                .expectBody()
+                .jsonPath("status").isEqualTo(409)
+                .jsonPath("method").isEqualTo("POST")
+                .jsonPath("path").isEqualTo("/api/v1/parkingSpot");
+    }
 }
