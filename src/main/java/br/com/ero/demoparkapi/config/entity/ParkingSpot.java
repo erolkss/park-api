@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 @Entity
-@Table(name = "parkingSpot")
+@Table(name = "parking_spot")
 @EntityListeners(AuditingEntityListener.class)
 public class ParkingSpot implements Serializable{
     @Id
