@@ -35,7 +35,6 @@ public class ParkingSpotController {
     @Operation(
             summary = "Create a new Parking Spot", description = "Resource to create a new Parking Spot.\n" +
             "Request requires use of a Bearer Token. Access Restricted to Role = 'ADMIN'",
-            security = @SecurityRequirement(name = "security"),
             responses = {
                     @ApiResponse(responseCode = "201", description = "Resource created successfully", headers = @Header(name = HttpHeaders.LOCATION, description = "URI from feature create")),
                     @ApiResponse(responseCode = "409", description = "Parking Spot already registered in the System", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
@@ -55,6 +54,15 @@ public class ParkingSpotController {
         return ResponseEntity.created(location).build();
     }
 
+    @Operation(
+            summary = "Find a Parking Spot", description = "Resource to return a Parking Spot by your Code.\n" +
+            "Request requires use of a Bearer Token. Access Restricted to Role = 'ADMIN'",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Resource created successfully", content = @Content(mediaType = "application/json;charset=UTF-8", schema = @Schema(implementation = ParkingSpotResponseDto.class))),
+                    @ApiResponse(responseCode = "404", description = "Parking Spot Not Found", content = @Content(mediaType = "application/json;charset=UTF-8", schema = @Schema(implementation = ErrorMessage.class)))
+            }
+
+    )
     @GetMapping("/{code}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ParkingSpotResponseDto> getByCode(@PathVariable String code) {
