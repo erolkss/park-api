@@ -117,4 +117,18 @@ public class ParkingSpotIT {
                 .jsonPath("method").isEqualTo(  "GET")
                 .jsonPath("path").isEqualTo("/api/v1/parkingSpot/A-10");
     }
+    @Test
+    public void getParkingSpot_UserNotAllowed_ReturnErrorMessageStatus403() {
+        testClient
+                .get()
+                .uri("/api/v1/parkingSpot/{code}", "A-10")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "bia@email.com", "123456"))
+                .exchange()
+                .expectStatus().isForbidden()
+                .expectBody()
+                .jsonPath("status").isEqualTo(403)
+                .jsonPath("method").isEqualTo("GET")
+                .jsonPath("path").isEqualTo("/api/v1/parkingSpot/A-10");
+
+    }
 }
