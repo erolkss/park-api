@@ -1,6 +1,8 @@
 package br.com.ero.demoparkapi;
 
+import br.com.ero.demoparkapi.web.dto.ClientCreateDto;
 import br.com.ero.demoparkapi.web.dto.ParkingSpotCreateDto;
+import br.com.ero.demoparkapi.web.exception.ErrorMessage;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -73,7 +75,21 @@ public class ParkingSpotIT {
                 .jsonPath("method").isEqualTo("POST")
                 .jsonPath("path").isEqualTo("/api/v1/parkingSpot");
     }
+    @Test
+    public void createParkingSpot_UserNotAllowed_ReturnErrorMessageStatus403() {
+         testClient
+                 .post()
+                 .uri("/api/v1/parkingSpot")
+                 .contentType(MediaType.APPLICATION_JSON)
+                 .headers(JwtAuthentication.getHeaderAuthorization(testClient, "bia@email.com", "123456"))
+                 .bodyValue(new ParkingSpotCreateDto("A-05", "FREE"))
+                 .exchange()
+                 .expectStatus().isForbidden()
+                 .expectBody()
+                 .jsonPath("status").isEqualTo(403)
+                 .jsonPath("method").isEqualTo("POST");
 
+    }
     @Test
     public void getParkingSpot_ExistingCode_ReturnStatus200(){
         testClient
