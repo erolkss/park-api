@@ -9,6 +9,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static br.com.ero.demoparkapi.config.entity.ParkingSpot.StatusParkingSpot.FREE;
+
 @RequiredArgsConstructor
 @Service
 public class ParkingSpotService {
@@ -29,6 +31,13 @@ public class ParkingSpotService {
     public ParkingSpot getByCode(String code) {
         return parkingSpotRepository.findByCode(code).orElseThrow(
                 () -> new EntityNotFoundException(String.format("Parking Spot with Code '%s' Not Found", code))
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public ParkingSpot searchByParkingSpotFree() {
+        return parkingSpotRepository.findFirstByStatus(FREE).orElseThrow(
+                () -> new EntityNotFoundException("No free parking spot found")
         );
     }
 }

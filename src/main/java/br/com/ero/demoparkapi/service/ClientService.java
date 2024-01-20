@@ -33,6 +33,7 @@ public class ClientService {
                 () -> new EntityNotFoundException(String.format("Client id=%s - Not found in the system", id))
         );
     }
+
     @Transactional(readOnly = true)
     public Page<ClientProjection> getAll(Pageable pageable) {
         return clientRepository.findAllPageable(pageable);
@@ -41,5 +42,12 @@ public class ClientService {
     @Transactional(readOnly = true)
     public Client getByUserId(Long id) {
         return clientRepository.findByUserId(id);
+    }
+
+    @Transactional(readOnly = true)
+    public Client searchByCpf(String cpf) {
+        return clientRepository.findByCpf().orElseThrow(
+                () -> new EntityNotFoundException(String.format("Client with CPF 's%' not found",cpf))
+        );
     }
 }

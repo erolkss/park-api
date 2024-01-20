@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface ParkingSpotRepository extends JpaRepository<ParkingSpot, Long> {
     Optional<ParkingSpot> findByCode(String code);
 
+    Optional<ParkingSpot> findFirstByStatus(ParkingSpot.StatusParkingSpot statusParkingSpot);
 }
