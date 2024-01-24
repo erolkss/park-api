@@ -66,5 +66,26 @@ public class ParkingIT {
         ;
 
     }
+    @Test
+    public void createCheckIn_DataInvalid_ReturnErrorStatus422(){
+        ParkingCreateDto createDto = ParkingCreateDto.builder()
+                .plate("").brand("").model("").color("").clientCpf("")
+                .build();
+
+        testClient
+                .post()
+                .uri("api/v1/parking/check-in")
+                .contentType(MediaType.APPLICATION_JSON)
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@email.com", "123456"))
+                .bodyValue(createDto)
+                .exchange()
+                .expectStatus().isEqualTo(422)
+                .expectBody()
+                .jsonPath("status").isEqualTo(422)
+                .jsonPath("path").isEqualTo("/api/v1/parking/check-in")
+                .jsonPath("method").isEqualTo("POST")
+        ;
+
+    }
 
 }
