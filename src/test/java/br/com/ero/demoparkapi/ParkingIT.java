@@ -45,4 +45,26 @@ public class ParkingIT {
 
     }
 
+    @Test
+    public void createCheckIn_RoleClient_ReturnErrorStatus403(){
+        ParkingCreateDto createDto = ParkingCreateDto.builder()
+                .plate("WER-1111").brand("FIAT").model("PALIO 1.0").color("BLUE").clientCpf("95536891081")
+                .build();
+
+        testClient
+                .post()
+                .uri("api/v1/parking/check-in")
+                .contentType(MediaType.APPLICATION_JSON)
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "bia@email.com", "123456"))
+                .bodyValue(createDto)
+                .exchange()
+                .expectStatus().isForbidden()
+                .expectBody()
+                .jsonPath("status").isEqualTo(403)
+                .jsonPath("path").isEqualTo("/api/v1/parking/check-in")
+                .jsonPath("method").isEqualTo("POST")
+        ;
+
+    }
+
 }
