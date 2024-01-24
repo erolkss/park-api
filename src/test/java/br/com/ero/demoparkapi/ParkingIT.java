@@ -19,7 +19,7 @@ public class ParkingIT {
     WebTestClient testClient;
 
     @Test
-    public void createCheckIn_DataValid_ReturnCreatedAndLocation(){
+    public void createCheckIn_DataValid_ReturnCreatedAndLocation() {
         ParkingCreateDto createDto = ParkingCreateDto.builder()
                 .plate("WER-1111").brand("FIAT").model("PALIO 1.0").color("BLUE").clientCpf("95536891081")
                 .build();
@@ -46,7 +46,7 @@ public class ParkingIT {
     }
 
     @Test
-    public void createCheckIn_RoleClient_ReturnErrorStatus403(){
+    public void createCheckIn_RoleClient_ReturnErrorStatus403() {
         ParkingCreateDto createDto = ParkingCreateDto.builder()
                 .plate("WER-1111").brand("FIAT").model("PALIO 1.0").color("BLUE").clientCpf("95536891081")
                 .build();
@@ -66,8 +66,9 @@ public class ParkingIT {
         ;
 
     }
+
     @Test
-    public void createCheckIn_DataInvalid_ReturnErrorStatus422(){
+    public void createCheckIn_DataInvalid_ReturnErrorStatus422() {
         ParkingCreateDto createDto = ParkingCreateDto.builder()
                 .plate("").brand("").model("").color("").clientCpf("")
                 .build();
@@ -85,6 +86,27 @@ public class ParkingIT {
                 .jsonPath("path").isEqualTo("/api/v1/parking/check-in")
                 .jsonPath("method").isEqualTo("POST")
         ;
+
+    }
+
+    @Test
+    public void createCheckIn_CpfNotExist_ReturnErrorStatus404() {
+        ParkingCreateDto createDto = ParkingCreateDto.builder()
+                .plate("WER-1111").brand("FIAT").model("PALIO 1.1").color("BLUE").clientCpf("10214759040")
+                .build();
+
+        testClient
+                .post()
+                .uri("/api/v1/parking/check-in")
+                .contentType(MediaType.APPLICATION_JSON)
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@email.com", "123456"))
+                .bodyValue(createDto)
+                .exchange()
+                .expectStatus().isNotFound()
+                .expectBody()
+                .jsonPath("status").isEqualTo(404)
+                .jsonPath("path").isEqualTo("/api/v1/parking/check-in")
+                .jsonPath("method").isEqualTo("POST");
 
     }
 
