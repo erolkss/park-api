@@ -110,4 +110,27 @@ public class ParkingIT {
 
     }
 
+    @Test
+    @Sql(scripts = "/sql/parking/parking-insert-parkingspot-busy.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = "/sql/parking/parking-delete-parkingspot-busy.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    public void createCheckIn_ParkingSpotBusy_ReturnErrorStatus404() {
+        ParkingCreateDto createDto = ParkingCreateDto.builder()
+                .plate("WER-1111").brand("FIAT").model("PALIO 1.1").color("BLUE").clientCpf("95536891081")
+                .build();
+
+        testClient
+                .post()
+                .uri("/api/v1/parking/check-in")
+                .contentType(MediaType.APPLICATION_JSON)
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@email.com", "123456"))
+                .bodyValue(createDto)
+                .exchange()
+                .expectStatus().isNotFound()
+                .expectBody()
+                .jsonPath("status").isEqualTo(404)
+                .jsonPath("path").isEqualTo("/api/v1/parking/check-in")
+                .jsonPath("method").isEqualTo("POST");
+
+    }
+
 }
