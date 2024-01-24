@@ -133,4 +133,23 @@ public class ParkingIT {
 
     }
 
+    @Test
+    public void getCheckIn_ProfileAdmin_ReturnDataStatus200() {
+        testClient
+                .get()
+                .uri("/api/v1/parking/check-in/{receipt}","20240118-205706")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@email.com", "123456"))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("plate").isEqualTo("FIT-1020")
+                .jsonPath("brand").isEqualTo("FIAT")
+                .jsonPath("model").isEqualTo("PALIO")
+                .jsonPath("color").isEqualTo("GREEN")
+                .jsonPath("clientCpf").isEqualTo("95536891081")
+                .jsonPath("receipt").isEqualTo("20240118-205706")
+                .jsonPath("entryDate").isEqualTo("2024-01-18 20:57:06")
+                .jsonPath("codeParkingSpot").isEqualTo("A-01");
+    }
+
 }
