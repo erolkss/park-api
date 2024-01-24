@@ -11,6 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ParkingSpotResponseDto {
     private Long id;
-    private String code;
+    private String codeParkingSpot;
     private String status;
 }

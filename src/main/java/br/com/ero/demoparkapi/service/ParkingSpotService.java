@@ -22,15 +22,15 @@ public class ParkingSpotService {
         try {
             return parkingSpotRepository.save(parkingSpot);
         } catch (DataIntegrityViolationException exception) {
-            throw new CodeUniqueViolationException(String.format("ParkingSpot with code '%s' already registered", parkingSpot.getCode()));
+            throw new CodeUniqueViolationException(String.format("ParkingSpot with code '%s' already registered", parkingSpot.getCodeParkingSpot()));
 
         }
     }
 
     @Transactional(readOnly = true) 
-    public ParkingSpot getByCode(String code) {
-        return parkingSpotRepository.findByCode(code).orElseThrow(
-                () -> new EntityNotFoundException(String.format("Parking Spot with Code '%s' Not Found", code))
+    public ParkingSpot getByCodeParkingSpot(String codeParkingSpot) {
+        return parkingSpotRepository.findByCodeParkingSpot(codeParkingSpot).orElseThrow(
+                () -> new EntityNotFoundException(String.format("Parking Spot with Code '%s' Not Found", codeParkingSpot))
         );
     }
 

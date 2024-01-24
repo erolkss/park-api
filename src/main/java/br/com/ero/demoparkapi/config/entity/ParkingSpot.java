@@ -22,8 +22,8 @@ public class ParkingSpot implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "code", nullable = false, unique = true,length = 4)
-    private String code;
+    @Column(name = "code_parking_spot", nullable = false, unique = true,length = 4)
+    private String codeParkingSpot;
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private StatusParkingSpot status;

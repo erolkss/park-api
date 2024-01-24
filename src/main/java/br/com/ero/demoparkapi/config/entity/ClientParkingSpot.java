@@ -20,7 +20,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "clients_have_parking_spot")
+@Table(name ="clients_parking_spot")
 @EntityListeners(AuditingEntityListener.class)
 public class ClientParkingSpot {
     @Id
@@ -37,17 +37,19 @@ public class ClientParkingSpot {
     @Column(name = "color", nullable = false, length = 45)
     private String color;
     @Column(name = "entry_date", nullable = false)
-    private LocalDateTime  entryDate;
+    private LocalDateTime entryDate;
     @Column(name = "exit_date")
     private LocalDateTime exitDate;
-    @Column(name = "value", columnDefinition = "decimal(7,2)")
-    private BigDecimal value;
+    @Column(name = "price", columnDefinition = "decimal(7,2)")
+    private BigDecimal price;
     @Column(name = "discount", columnDefinition = "decimal(7,2)")
     private BigDecimal discount;
+
 
     @ManyToOne
     @JoinColumn(name = "id_client", nullable = false)
     private Client client;
+
     @ManyToOne
     @JoinColumn(name = "id_parking_spot", nullable = false)
     private ParkingSpot parkingSpot;

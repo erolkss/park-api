@@ -51,7 +51,7 @@ public class ParkingSpotController {
         parkingSpotService.saveParkingSpot(parkingSpot);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequestUri().path("/{code}")
-                .buildAndExpand(parkingSpot.getCode())
+                .buildAndExpand(parkingSpot.getCodeParkingSpot())
                 .toUri();
         return ResponseEntity.created(location).build();
     }
@@ -68,8 +68,8 @@ public class ParkingSpotController {
     )
     @GetMapping("/{code}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ParkingSpotResponseDto> getByCode(@PathVariable String code) {
-        ParkingSpot parkingSpot = parkingSpotService.getByCode(code);
+    public ResponseEntity<ParkingSpotResponseDto> getByCode(@PathVariable String codeParkingSpot) {
+        ParkingSpot parkingSpot = parkingSpotService.getByCodeParkingSpot(codeParkingSpot);
         return ResponseEntity.ok(ParkingSpotMapper.toDto(parkingSpot));
     }
 }

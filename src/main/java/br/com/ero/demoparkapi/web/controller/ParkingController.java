@@ -52,6 +52,7 @@ public class ParkingController {
         ClientParkingSpot clientParkingSpot = ClientParkingSpotMapper.toClientParkingSpot(parkingCreateDto);
         parkingService.checkIn(clientParkingSpot);
         ParkingResponseDto responseDto = ClientParkingSpotMapper.toDto(clientParkingSpot);
+
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequestUri().path("/{receipt}")
                 .buildAndExpand(clientParkingSpot.getReceipt())
