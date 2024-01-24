@@ -171,4 +171,18 @@ public class ParkingIT {
                 .jsonPath("codeParkingSpot").isEqualTo("A-01");
     }
 
+    @Test
+    public void getCheckIn_ReceiptNotExist_ReturnErrorStatus404() {
+        testClient
+                .get()
+                .uri("/api/v1/parking/check-in/{receipt}","20240118-999999")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "bia@email.com", "123456"))
+                .exchange()
+                .expectStatus().isNotFound()
+                .expectBody()
+                .jsonPath("status").isEqualTo(404)
+                .jsonPath("path").isEqualTo("/api/v1/parking/check-in/20240118-999999")
+                .jsonPath("method").isEqualTo("GET");
+    }
+
 }
