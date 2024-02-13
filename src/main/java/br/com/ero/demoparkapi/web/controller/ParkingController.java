@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.headers.Header;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -99,6 +100,23 @@ public class ParkingController {
     }
 
 
+    @Operation(
+            summary = "Find customer parking records by CPF", description = "Find customer parking records by CPF" +
+            "Request requires use of a Bearer Token. Access Restricted to Role = 'ADMIN'", security = @SecurityRequirement(name = "security"),
+            parameters = {
+                    @Parameter(in = ParameterIn.PATH, name = "cpf", description = "CPF number referring to the client to be consulted", required = true),
+                    @Parameter(in = ParameterIn.QUERY, name = "page", description = "Represents the returned page", content = @Content(schema = @Schema(type = "integer", defaultValue = "0"))),
+                    @Parameter(in = ParameterIn.QUERY, name = "size", description = "Represents the total number of elements per page", content = @Content(schema = @Schema(type = "integer", defaultValue = "5"))),
+                    @Parameter(in = ParameterIn.QUERY, name = "sort", description = "Standard sort field 'entryDate,asc'",array = @ArraySchema(schema = @Schema(type = "string", defaultValue = "entryDate,asc")), hidden = true)
+
+            },
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Resource locate successfully", headers = @Header(name = HttpHeaders.LOCATION, description = "Access URI from feature create"), content = @Content(mediaType = "application/json;charset=UTF-8", schema = @Schema(implementation = PageableDto.class))),
+                    @ApiResponse(responseCode = "403", description = "Resources not allowed to the CLIENT profile", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
+
+            }
+
+    )
     @GetMapping("/cpf/{cpf}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PageableDto> getAllParkingSpotByCpf(@PathVariable String cpf, @PageableDefault(size = 5, sort = "entryDate", direction = Sort.Direction.ASC) Pageable pageable) {
