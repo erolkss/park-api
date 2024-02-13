@@ -137,7 +137,7 @@ public class ParkingIT {
     public void getCheckIn_ProfileAdmin_ReturnDataStatus200() {
         testClient
                 .get()
-                .uri("/api/v1/parking/check-in/{receipt}","20240118-205706")
+                .uri("/api/v1/parking/check-in/{receipt}", "20240118-205706")
                 .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@email.com", "123456"))
                 .exchange()
                 .expectStatus().isOk()
@@ -156,7 +156,7 @@ public class ParkingIT {
     public void getCheckIn_ProfileClient_ReturnDataStatus200() {
         testClient
                 .get()
-                .uri("/api/v1/parking/check-in/{receipt}","20240118-205706")
+                .uri("/api/v1/parking/check-in/{receipt}", "20240118-205706")
                 .headers(JwtAuthentication.getHeaderAuthorization(testClient, "bia@email.com", "123456"))
                 .exchange()
                 .expectStatus().isOk()
@@ -175,7 +175,7 @@ public class ParkingIT {
     public void getCheckIn_ReceiptNotExist_ReturnErrorStatus404() {
         testClient
                 .get()
-                .uri("/api/v1/parking/check-in/{receipt}","20240118-999999")
+                .uri("/api/v1/parking/check-in/{receipt}", "20240118-999999")
                 .headers(JwtAuthentication.getHeaderAuthorization(testClient, "bia@email.com", "123456"))
                 .exchange()
                 .expectStatus().isNotFound()
@@ -189,7 +189,7 @@ public class ParkingIT {
     public void createCheckOut_ReceiptExist_ReturnStatus200() {
         testClient
                 .put()
-                .uri("/api/v1/parking/check-out/{receipt}","20240118-205706")
+                .uri("/api/v1/parking/check-out/{receipt}", "20240118-205706")
                 .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@email.com", "123456"))
                 .exchange()
                 .expectStatus().isOk()
@@ -208,6 +208,20 @@ public class ParkingIT {
         ;
     }
 
-    // number_receipt, plate, brand, model, color, entry_date, id_client, id_parking_spot
-    //'', '', '', '', ''
+    @Test
+    public void createCheckOut_ReceiptNotExist_ReturnErrorStatus404() {
+        testClient
+                .put()
+                .uri("/api/v1/parking/check-out/{receipt}", "20240118-200006")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@email.com", "123456"))
+                .exchange()
+                .expectStatus().isNotFound()
+                .expectBody()
+                .jsonPath("status").isEqualTo(404)
+                .jsonPath("path").isEqualTo("/api/v1/parking/check-out/20240118-200006")
+                .jsonPath("method").isEqualTo("PUT");
+        ;
+    }
+
+
 }
