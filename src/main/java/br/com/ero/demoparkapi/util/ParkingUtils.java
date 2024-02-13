@@ -10,6 +10,9 @@ import java.time.temporal.ChronoUnit;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ParkingUtils {
+    private static final double PRIMEIROS_15_MINUTES = 5.00;
+    private static final double PRIMEIROS_60_MINUTES = 9.25;
+    private static final double ADICIONAL_15_MINUTES = 1.75;
 
     public static String generateReceipt() {
         LocalDateTime date = LocalDateTime.now();
@@ -18,10 +21,6 @@ public class ParkingUtils {
                 .replace(":", "")
                 .replace("T", "-");
     }
-
-    private static final double PRIMEIROS_15_MINUTES = 5.00;
-    private static final double PRIMEIROS_60_MINUTES = 9.25;
-    private static final double ADICIONAL_15_MINUTES = 1.75;
 
 
     public static BigDecimal calculateCost(LocalDateTime entry, LocalDateTime exit) {
@@ -49,5 +48,14 @@ public class ParkingUtils {
         }
 
         return new BigDecimal(total).setScale(2, RoundingMode.HALF_EVEN);
+    }
+
+    private static final double DISCOUNT_PERCENT = 0.30;
+
+    public static BigDecimal calculateDiscount(BigDecimal cost, long numberOfTimes) {
+        BigDecimal discount = ((numberOfTimes > 0) && (numberOfTimes % 10 == 0))
+                ? cost.multiply(new BigDecimal(DISCOUNT_PERCENT))
+                : new BigDecimal(0);
+        return discount.setScale(2, RoundingMode.HALF_EVEN);
     }
 }
