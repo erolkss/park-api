@@ -8,8 +8,8 @@ insert into clients(id, name, cpf, id_user) VALUES (22, 'Rodrigo Silva', '445043
 insert into parking_spot(id, code_parking_spot, status) values (100, 'A-01', 'BUSY');
 insert into parking_spot(id, code_parking_spot, status) values (200, 'A-02', 'BUSY');
 insert into parking_spot(id, code_parking_spot, status) values (300, 'A-03', 'BUSY');
-insert into parking_spot(id, code_parking_spot, status) values (400, 'A-04', 'BUSY');
-insert into parking_spot(id, code_parking_spot, status) values (500, 'A-05', 'BUSY');
+insert into parking_spot(id, code_parking_spot, status) values (400, 'A-04', 'FREE');
+insert into parking_spot(id, code_parking_spot, status) values (500, 'A-05', 'FREE');
 
 insert into clients_parking_spot(number_receipt, plate, brand, model, color, entry_date, id_client, id_parking_spot) values ('20240118-205706', 'FIT-1020', 'FIAT', 'PALIO', 'GREEN', '2024-01-18 20:57:06', 22, 100);
 insert into clients_parking_spot(number_receipt, plate, brand, model, color, entry_date, id_client, id_parking_spot) values ('20240119-205706', 'SIE-1020', 'HONDA', 'SIENA', 'WHITE', '2024-01-19 20:57:06', 21, 200);

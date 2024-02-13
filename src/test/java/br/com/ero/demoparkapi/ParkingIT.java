@@ -185,4 +185,29 @@ public class ParkingIT {
                 .jsonPath("method").isEqualTo("GET");
     }
 
+    @Test
+    public void createCheckOut_ReceiptExist_ReturnStatus200() {
+        testClient
+                .put()
+                .uri("/api/v1/parking/check-out/{receipt}","20240118-205706")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@email.com", "123456"))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("plate").isEqualTo("FIT-1020")
+                .jsonPath("brand").isEqualTo("FIAT")
+                .jsonPath("model").isEqualTo("PALIO")
+                .jsonPath("color").isEqualTo("GREEN")
+                .jsonPath("entryDate").isEqualTo("2024-01-18 20:57:06")
+                .jsonPath("clientCpf").isEqualTo("95536891081")
+                .jsonPath("codeParkingSpot").isEqualTo("A-01")
+                .jsonPath("receipt").isEqualTo("20240118-205706")
+                .jsonPath("exitDate").exists()
+                .jsonPath("price").exists()
+                .jsonPath("discount").exists()
+        ;
+    }
+
+    // number_receipt, plate, brand, model, color, entry_date, id_client, id_parking_spot
+    //'', '', '', '', ''
 }
