@@ -222,6 +222,20 @@ public class ParkingIT {
                 .jsonPath("method").isEqualTo("PUT");
         ;
     }
+    @Test
+    public void createCheckOut_RoleClient_ReturnErrorStatus403() {
+        testClient
+                .put()
+                .uri("/api/v1/parking/check-out/{receipt}", "20240118-205706")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "bia@email.com", "123456"))
+                .exchange()
+                .expectStatus().isForbidden()
+                .expectBody()
+                .jsonPath("status").isEqualTo(403)
+                .jsonPath("path").isEqualTo("/api/v1/parking/check-out/20240118-205706")
+                .jsonPath("method").isEqualTo("PUT");
+        ;
+    }
 
 
 }
