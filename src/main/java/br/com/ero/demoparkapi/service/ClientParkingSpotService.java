@@ -3,7 +3,10 @@ package br.com.ero.demoparkapi.service;
 import br.com.ero.demoparkapi.config.entity.ClientParkingSpot;
 import br.com.ero.demoparkapi.exception.EntityNotFoundException;
 import br.com.ero.demoparkapi.repository.ClientParkingSpotRepository;
+import br.com.ero.demoparkapi.repository.projection.ClientParkingSpotProjection;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,5 +30,9 @@ public class ClientParkingSpotService {
     @Transactional(readOnly = true)
     public long getTotalParkingTimes(String cpf) {
         return  clientParkingSpotRepository.countByClientCpfAndExitDateIsNotNull(cpf);
+    }
+    @Transactional(readOnly = true)
+    public Page<ClientParkingSpotProjection> getAllByClientCpf(String cpf, Pageable pageable) {
+        return clientParkingSpotRepository.findAllByClientCpf(cpf, pageable);
     }
 }
