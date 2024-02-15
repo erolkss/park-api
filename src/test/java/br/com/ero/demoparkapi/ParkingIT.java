@@ -243,7 +243,7 @@ public class ParkingIT {
     public void getParking_ClientCpf_ReturnStatus200(){
         PageableDto responseBody = testClient
                 .get()
-                .uri("/api/v1/parking/cpf/{clientCpf}?size=1&page=0", "44504393093")
+                .uri("/api/v1/parking/cpf/{cpf}?size=1&page=0", "44504393093")
                 .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@email.com", "123456"))
                 .exchange()
                 .expectStatus().isOk()
@@ -258,7 +258,7 @@ public class ParkingIT {
 
         responseBody = testClient
                 .get()
-                .uri("/api/v1/parking/cpf/{clientCpf}?size=1&page=1", "44504393093")
+                .uri("/api/v1/parking/cpf/{cpf}?size=1&page=1", "44504393093")
                 .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@email.com", "123456"))
                 .exchange()
                 .expectStatus().isOk()
@@ -273,5 +273,19 @@ public class ParkingIT {
     }
 
 
+    @Test
+    public void getParking_RoleClient_ReturnErrorStatus403() {
+        testClient
+                .get()
+                .uri("/api/v1/parking/cpf/{cpf}", "44504393093")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "bia@email.com", "123456"))
+                .exchange()
+                .expectStatus().isForbidden()
+                .expectBody()
+                .jsonPath("status").isEqualTo(403)
+                .jsonPath("path").isEqualTo("/api/v1/parking/cpf/44504393093")
+                .jsonPath("method").isEqualTo("GET");
+        ;
+    }
 }
 
