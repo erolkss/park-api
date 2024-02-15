@@ -129,6 +129,22 @@ public class ParkingController {
 
     }
 
+    @Operation(
+            summary = "Find logged in customer parking records\n", description = "FFind logged in customer parking records\n" +
+            "Request requires use of a Bearer Token. Access Restricted to Role = 'CLIENT'", security = @SecurityRequirement(name = "security"),
+            parameters = {
+                    @Parameter(in = ParameterIn.QUERY, name = "page", description = "Represents the returned page", content = @Content(schema = @Schema(type = "integer", defaultValue = "0"))),
+                    @Parameter(in = ParameterIn.QUERY, name = "size", description = "Represents the total number of elements per page", content = @Content(schema = @Schema(type = "integer", defaultValue = "5"))),
+                    @Parameter(in = ParameterIn.QUERY, name = "sort", hidden = true, description = "Standard sort field 'entryDate,asc'",array = @ArraySchema(schema = @Schema(type = "string", defaultValue = "entryDate,asc")))
+
+            },
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Resource locate successfully", headers = @Header(name = HttpHeaders.LOCATION, description = "Access URI from feature create"), content = @Content(mediaType = "application/json;charset=UTF-8", schema = @Schema(implementation = PageableDto.class))),
+                    @ApiResponse(responseCode = "403", description = "Resources not allowed to the ADMIN profile", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
+
+            }
+
+    )
     @GetMapping
     @PreAuthorize("hasRole('CLIENT')")
     public ResponseEntity<PageableDto> getAllParkingClient(@AuthenticationPrincipal JwtUserDetails jwtUserDetails, @PageableDefault(size = 5, sort = "entryDate", direction = Sort.Direction.ASC) Pageable pageable) {
