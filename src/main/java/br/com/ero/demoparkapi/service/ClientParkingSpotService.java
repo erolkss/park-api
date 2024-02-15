@@ -39,7 +39,7 @@ public class ClientParkingSpotService {
 
 
     @Transactional(readOnly = true)
-    public Page<ClientParkingSpotProjection> getAllByUserId(JwtUserDetails id, Pageable pageable) {
+    public Page<ClientParkingSpotProjection> getAllByUserId(Long id, Pageable pageable) {
         return clientParkingSpotRepository.findAllByClientUserId(id, pageable);
     }
 }

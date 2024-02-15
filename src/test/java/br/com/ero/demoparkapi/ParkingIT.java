@@ -287,5 +287,21 @@ public class ParkingIT {
                 .jsonPath("method").isEqualTo("GET");
         ;
     }
+
+
+    @Test
+    public void getParking_ClientLoggedWithAdmin_profile_ReturnErrorStatus403() {
+        testClient
+                .get()
+                .uri("/api/v1/parking")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@email.com", "123456"))
+                .exchange()
+                .expectStatus().isForbidden()
+                .expectBody()
+                .jsonPath("status").isEqualTo(403)
+                .jsonPath("path").isEqualTo("/api/v1/parking")
+                .jsonPath("method").isEqualTo("GET");
+        ;
+    }
 }
 
