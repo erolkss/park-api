@@ -10,7 +10,7 @@ public class JwtUserDetails extends User     {
         this.user = user;
     }
 
-    public Long getId(){
+    public JwtUserDetails getId(){
         return this.user.getId();
     }
     public String getRole(){

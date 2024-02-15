@@ -1,6 +1,7 @@
 package br.com.ero.demoparkapi.repository;
 
 import br.com.ero.demoparkapi.config.entity.ClientParkingSpot;
+import br.com.ero.demoparkapi.jwt.JwtUserDetails;
 import br.com.ero.demoparkapi.repository.projection.ClientParkingSpotProjection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,4 +17,6 @@ public interface ClientParkingSpotRepository extends JpaRepository<ClientParking
     long countByClientCpfAndExitDateIsNotNull(String cpf);
 
     Page<ClientParkingSpotProjection> findAllByClientCpf(String cpf, Pageable pageable);
+
+    Page<ClientParkingSpotProjection> findAllByClientUserId(JwtUserDetails id, Pageable pageable);
 }

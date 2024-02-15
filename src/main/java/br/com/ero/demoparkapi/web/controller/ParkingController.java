@@ -1,6 +1,7 @@
 package br.com.ero.demoparkapi.web.controller;
 
 import br.com.ero.demoparkapi.config.entity.ClientParkingSpot;
+import br.com.ero.demoparkapi.jwt.JwtUserDetails;
 import br.com.ero.demoparkapi.repository.projection.ClientParkingSpotProjection;
 import br.com.ero.demoparkapi.service.ClientParkingSpotService;
 import br.com.ero.demoparkapi.service.ParkingService;
@@ -30,6 +31,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -126,5 +128,15 @@ public class ParkingController {
         return ResponseEntity.ok(dto);
 
     }
+
+    @GetMapping
+    @PreAuthorize("hasRole('CLIENT')")
+    public ResponseEntity<PageableDto> getAllParkingClient(@AuthenticationPrincipal JwtUserDetails jwtUserDetails, @PageableDefault(size = 5, sort = "entryDate", direction = Sort.Direction.ASC) Pageable pageable) {
+        Page<ClientParkingSpotProjection> projection = clientParkingSpotService.getAllByUserId(jwtUserDetails.getId(), pageable);
+        PageableDto dto = PageableMapper.toDto(projection);
+        return ResponseEntity.ok(dto);
+    }
+
+
 
 }
