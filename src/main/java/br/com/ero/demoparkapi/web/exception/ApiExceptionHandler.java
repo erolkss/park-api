@@ -80,6 +80,24 @@ public class ApiExceptionHandler {
 
     }
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorMessage> internServerErrorException(
+            Exception exception,
+            HttpServletRequest httpServletRequest) {
+        ErrorMessage error = new ErrorMessage(
+                httpServletRequest,
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()
+        );
+
+        log.error("Internal Server Error {} {} ", error, exception.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(error);
+
+    }
+
 
 
 }
