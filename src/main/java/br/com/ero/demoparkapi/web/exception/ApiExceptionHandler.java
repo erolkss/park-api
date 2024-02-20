@@ -2,7 +2,9 @@ package br.com.ero.demoparkapi.web.exception;
 
 import br.com.ero.demoparkapi.exception.*;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +16,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 
 @Slf4j
+@RequiredArgsConstructor
 @RestControllerAdvice
 public class ApiExceptionHandler {
+
+    private final MessageSource messageSource;
+
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorMessage> accessDeniedException(
             AccessDeniedException exception,
@@ -38,7 +44,7 @@ public class ApiExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.UNPROCESSABLE_ENTITY)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(new ErrorMessage(httpServletRequest, HttpStatus.UNPROCESSABLE_ENTITY, "Invalid Fields", bindingResult));
+                .body(new ErrorMessage(httpServletRequest, HttpStatus.UNPROCESSABLE_ENTITY, messageSource.getMessage("message.invalid.field", null, httpServletRequest.getLocale()), bindingResult, messageSource));
 
     }
     @ExceptionHandler({UserNameUniqueViolationException.class, CpfUniqueViolationException.class, CodeUniqueViolationException.class})
