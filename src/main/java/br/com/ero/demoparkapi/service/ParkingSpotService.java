@@ -22,7 +22,7 @@ public class ParkingSpotService {
         try {
             return parkingSpotRepository.save(parkingSpot);
         } catch (DataIntegrityViolationException exception) {
-            throw new CodeUniqueViolationException(String.format("ParkingSpot with code '%s' already registered", parkingSpot.getCodeParkingSpot()));
+            throw new CodeUniqueViolationException("ParkingSpot", parkingSpot.getCodeParkingSpot());
 
         }
     }

@@ -22,6 +22,18 @@ public class ApiExceptionHandler {
 
     private final MessageSource messageSource;
 
+    @ExceptionHandler({ CodeUniqueViolationException.class})
+    public ResponseEntity<ErrorMessage> codeUniqueViolationException(
+            CodeUniqueViolationException exception,
+            HttpServletRequest httpServletRequest) {
+        String message = messageSource.getMessage("exception.codeUniqueViolationException", new Object[]{exception.getResource(), exception.getCode()}, httpServletRequest.getLocale());
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(httpServletRequest, HttpStatus.CONFLICT, message));
+
+    }
+
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorMessage> accessDeniedException(
             AccessDeniedException exception,
@@ -47,7 +59,7 @@ public class ApiExceptionHandler {
                 .body(new ErrorMessage(httpServletRequest, HttpStatus.UNPROCESSABLE_ENTITY, messageSource.getMessage("message.invalid.field", null, httpServletRequest.getLocale()), bindingResult, messageSource));
 
     }
-    @ExceptionHandler({UserNameUniqueViolationException.class, CpfUniqueViolationException.class, CodeUniqueViolationException.class})
+    @ExceptionHandler({UserNameUniqueViolationException.class, CpfUniqueViolationException.class})
     public ResponseEntity<ErrorMessage> uniqueViolationException(
             RuntimeException exception,
             HttpServletRequest httpServletRequest) {
