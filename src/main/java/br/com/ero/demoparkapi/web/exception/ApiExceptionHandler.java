@@ -22,11 +22,25 @@ public class ApiExceptionHandler {
 
     private final MessageSource messageSource;
 
-    @ExceptionHandler({ CodeUniqueViolationException.class})
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorMessage> entityNotFoundException(
+            EntityNotFoundException exception,
+            HttpServletRequest httpServletRequest) {
+        Object[] params =  new Object[]{exception.getResource(), exception.getCode()};
+        String message = messageSource.getMessage("exception.entityNotFoundException", params, httpServletRequest.getLocale());
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(httpServletRequest, HttpStatus.NOT_FOUND, message));
+
+    }
+
+    @ExceptionHandler(CodeUniqueViolationException.class)
     public ResponseEntity<ErrorMessage> codeUniqueViolationException(
             CodeUniqueViolationException exception,
             HttpServletRequest httpServletRequest) {
-        String message = messageSource.getMessage("exception.codeUniqueViolationException", new Object[]{exception.getResource(), exception.getCode()}, httpServletRequest.getLocale());
+        Object[] params =  new Object[]{exception.getResource(), exception.getCode()};
+        String message = messageSource.getMessage("exception.codeUniqueViolationException",params, httpServletRequest.getLocale());
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -72,8 +86,10 @@ public class ApiExceptionHandler {
 
     }
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ErrorMessage> entityNotFoundException(
+
+
+    @ExceptionHandler(ParkingSpotAvailableException.class)
+    public ResponseEntity<ErrorMessage> parkingSpotAvailableException(
             RuntimeException exception,
             HttpServletRequest httpServletRequest) {
 
