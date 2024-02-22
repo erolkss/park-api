@@ -66,7 +66,7 @@ public class ParkingSpotController {
             }
 
     )
-    @GetMapping("/{code}")
+    @GetMapping("/{codeParkingSpot}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ParkingSpotResponseDto> getByCode(@PathVariable String codeParkingSpot) {
         ParkingSpot parkingSpot = parkingSpotService.getByCodeParkingSpot(codeParkingSpot);
