@@ -38,7 +38,7 @@ public class ParkingSpotService {
     @Transactional(readOnly = true)
     public ParkingSpot searchByParkingSpotFree() {
         return parkingSpotRepository.findFirstByStatus(FREE).orElseThrow(
-                () -> new ParkingSpotAvailableException("No free parking spot found")
+                () -> new ParkingSpotAvailableException()
         );
     }
 }

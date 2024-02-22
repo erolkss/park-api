@@ -22,6 +22,18 @@ public class ApiExceptionHandler {
 
     private final MessageSource messageSource;
 
+    @ExceptionHandler(ParkingSpotAvailableException.class)
+    public ResponseEntity<ErrorMessage> parkingSpotAvailableException(
+            RuntimeException exception,
+            HttpServletRequest httpServletRequest) {
+        String message = messageSource.getMessage("exception.parkingSpotAvailableException", null, httpServletRequest.getLocale());
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(httpServletRequest, HttpStatus.NOT_FOUND, message));
+
+    }
+
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ErrorMessage> entityNotFoundException(
             EntityNotFoundException exception,
@@ -88,18 +100,6 @@ public class ApiExceptionHandler {
 
 
 
-    @ExceptionHandler(ParkingSpotAvailableException.class)
-    public ResponseEntity<ErrorMessage> parkingSpotAvailableException(
-            RuntimeException exception,
-            HttpServletRequest httpServletRequest) {
-
-        log.error("Api Error: " + exception);
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(new ErrorMessage(httpServletRequest, HttpStatus.NOT_FOUND, exception.getMessage()));
-
-    }
 
     @ExceptionHandler(PasswordInvalidException.class)
     public ResponseEntity<ErrorMessage> passwordInvalidException(
