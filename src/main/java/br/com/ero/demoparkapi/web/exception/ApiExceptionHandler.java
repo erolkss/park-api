@@ -1,6 +1,7 @@
 package br.com.ero.demoparkapi.web.exception;
 
 import br.com.ero.demoparkapi.exception.*;
+import br.com.ero.demoparkapi.service.ReceiptCheckInNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,20 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ApiExceptionHandler {
 
     private final MessageSource messageSource;
+
+
+    @ExceptionHandler(ReceiptCheckInNotFoundException.class)
+    public ResponseEntity<ErrorMessage> receiptCheckInNotFoundException(
+            ReceiptCheckInNotFoundException exception,
+            HttpServletRequest httpServletRequest) {
+        Object[] params =  new Object[]{exception.getReceipt()};
+        String message = messageSource.getMessage("exception.receiptCheckInNotFoundException", params, httpServletRequest.getLocale());
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(httpServletRequest, HttpStatus.NOT_FOUND, message));
+
+    }
 
     @ExceptionHandler(ParkingSpotAvailableException.class)
     public ResponseEntity<ErrorMessage> parkingSpotAvailableException(
