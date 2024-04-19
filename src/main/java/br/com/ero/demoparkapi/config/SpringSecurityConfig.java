@@ -33,21 +33,21 @@ public class SpringSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-                .csrf(csrf -> csrf.disable())
-                .formLogin(form -> form.disable())
-                .httpBasic(basic -> basic.disable())
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "api/v1/users").permitAll()
-                        .requestMatchers(HttpMethod.POST, "api/v1/auth").permitAll()
-                        .requestMatchers(DOCUMENTATION_OPENAPI).permitAll()
-                        .anyRequest().authenticated()
-                ).sessionManagement(
-                        session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                ).addFilterAfter(
-                        jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class
-                ).exceptionHandling(ex -> ex
-                        .authenticationEntryPoint(new JwtAuthenticationEntryPoint()))
-                .build();
+                    .csrf(csrf -> csrf.disable())
+                    .formLogin(form -> form.disable())
+                    .httpBasic(basic -> basic.disable())
+                    .authorizeHttpRequests(auth -> auth
+                            .requestMatchers(HttpMethod.POST, "api/v1/users").permitAll()
+                            .requestMatchers(HttpMethod.POST, "api/v1/auth").permitAll()
+                            .requestMatchers(DOCUMENTATION_OPENAPI).permitAll()
+                            .anyRequest().authenticated()
+                    ).sessionManagement(
+                            session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    ).addFilterAfter(
+                            jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class
+                    ).exceptionHandling(ex -> ex
+                            .authenticationEntryPoint(new JwtAuthenticationEntryPoint()))
+                    .build();
     }
 
     @Bean
