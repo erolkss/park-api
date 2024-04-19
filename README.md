@@ -341,6 +341,7 @@ Pageable - <i style="color: #EE4B2B;">obrigatório</i>
 - Spring Boot (3.2.1)
 - Spring Web
 - DevTools
+- Swagger (REST API - Spring Parker)
 - JPA/Hibernate
 - Spring Security 
 - Spring Validation
