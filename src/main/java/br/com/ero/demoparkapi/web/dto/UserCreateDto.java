@@ -13,7 +13,7 @@ public class UserCreateDto {
     @Email(regexp = "^[a-z0-9.+-]+@[a-z--9.-]+\\.[a-z]{2,}$", message = "Invalid email format")
     private String username;
     @NotBlank
-    @Size(min = 6, max = 6)
+    @Size(min = 8, max = 30)
     private String password;
 
 

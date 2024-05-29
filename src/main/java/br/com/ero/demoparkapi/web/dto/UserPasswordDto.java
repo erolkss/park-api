@@ -11,12 +11,12 @@ import lombok.*;
 @ToString
 public class UserPasswordDto {
     @NotBlank
-    @Size(min = 6, max = 6)
+    @Size(min = 8, max = 30)
     private String currentPassword;
     @NotBlank
-    @Size(min = 6, max = 6)
+    @Size(min = 8, max = 30)
     private String newPassword;
     @NotBlank
-    @Size(min = 6, max = 6)
+    @Size(min = 8, max = 30)
     private String confirmPassword;
 }
