@@ -3,8 +3,37 @@
 
 ## Sobre o projeto
 
-API de Sistema de gerenciamento de saída e entrada de veículos em um estacionamento. O sistema permite o cadastro de usuários e vagas. Além de calcular o preço e se houver um desconto quando o cliente for retirar o veículo.
+API construída para o gerenciamento de entrada e saída de veículos em um estacionamento. Essa API oferece funcionalidades completas para registrar a entrada de veículos, monitorar o tempo de permanência, calcular tarifas de estacionamento, e registrar a saída de veículos. 
+A API permite aos administradores de estacionamento manter um controle sobre a ocupação e a rotatividade dos veículos. Além disso, a API suporta relatórios detalhados e históricos de movimentação.
+	
 
+API robusta e completa desenvolvida com as seguintes características:
+
+1. **Segurança com Spring Security e JWT (JSON Web Token)**:
+
+   Garantindo que apenas usuários autenticados e autorizados possam acessar os recursos da API. Regras e permissões são configuradas com base nos perfis dos usuários.
+
+2. **Validação de Dados**:
+
+   Uso de anotações de validação para garantir a integridade e a consistência dos dados recebidos pela API.
+
+3. **Documentação com OpenAPI/Swagger**:
+
+   A API é documentada utilizando a especificação OpenAPI, também conhecida como Swagger, facilitando a geração de documentação interativa.
+
+4. **Internacionalização (i18n)**:
+
+   Suporte a múltiplos idiomas, permitindo que mensagens de erro, respostas e outros textos sejam traduzidos de acordo com a preferência do usuário ou a localização geográfica.
+
+5. **Tratamento de Exceções**:
+
+   Mecanismo de tratamento de exceções centralizado para capturar e responder adequadamente a erros que possam ocorrer durante o processamento das requisições.
+
+6. **Testes de Integração**:
+
+   Conjunto de testes de integração para assegurar que todas as partes da aplicação funcionam corretamente quando combinadas. Esses testes simulam cenários reais de uso e validam a interação entre diferentes componentes do sistema.
+
+Essa API é projetada para ser segura, eficiente e de fácil manutenção.
 
 ## Índice
 - [Detalhes da Aplicação](#detalhes-da-aplicação)
@@ -13,6 +42,7 @@ API de Sistema de gerenciamento de saída e entrada de veículos em um estaciona
 - [Instalação](#instalação)
 - [Configuração](#configuração)
 - [Autor e Contato](#autor-e-contato)
+
 
 
 
