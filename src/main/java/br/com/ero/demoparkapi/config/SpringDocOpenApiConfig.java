@@ -18,7 +18,7 @@ public class SpringDocOpenApiConfig {
                 .components(new Components().addSecuritySchemes("security", securityScheme()))
                 .info(
                         new Info()
-                                .title("REST API - Spring Parker")
+                                .title("REST API - Parker API")
                                 .description("....")
                                 .version("v1")
                                 .license(new License().name("Apache 2.0").url("https://www.apache.org/licenses/LICENSE-2.0"))
