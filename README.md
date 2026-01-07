@@ -39,6 +39,7 @@ Essa API é projetada para ser segura, eficiente e de fácil manutenção.
 - [Detalhes da Aplicação](#detalhes-da-aplicação)
 - [API](#api)
 - [Tecnologias Usadas](#tecnologias-usadas)
+- [Docker](#docker)
 - [Instalação](#instalação)
 - [Configuração](#configuração)
 - [Autor e Contato](#autor-e-contato)
@@ -382,6 +383,11 @@ Pageable - <i style="color: #EE4B2B;">obrigatório</i>
 - i18n
 - JUnit 
 
+### Infraestrutura
+- Docker
+- Docker Compose
+
+
 
 ### Dados
 
@@ -395,49 +401,58 @@ Pageable - <i style="color: #EE4B2B;">obrigatório</i>
 
 &nbsp;
 
+## Docker
+
+A aplicação utiliza **Docker Compose** para subir o banco de dados MySQL de forma rápida e padronizada, evitando configurações manuais no ambiente local.
+
+### Pré-requisitos
+- Docker
+- Docker Compose (v2 ou superior)
+
+### Subindo o banco de dados com Docker
+
+Na raiz do projeto, execute:
+
+```bash
+docker compose up -d
+```
+
+Isso irá subir um container MySQL com as seguintes configurações:
+
+- Banco: demo_park
+- Porta: 3306
+- Usuário: Teste
+- Senha: Teste@123
+
+O banco ficará disponível em:
+```bash
+jdbc:mysql://localhost:3306/demo_park
+```
+
+&nbsp;
+
+
 
 ## Instalação 
 ### Pré-requisitos
 
 - Java 17
-- Pré-requisitos: Banco de Dados MySQL
+- Pré-requisitos: Docker Compose 
+
+
+
+
 
 &nbsp;
 
-
-
-&nbsp;
-
-## Configuração
-
-### Banco de Dados
-
-```
-Nessa aplicação foi usado o MySQL, mas você pode usar qualquer outro Banco Dados SQL. Você terá que configurar somente o Drive no Spring e a credencial para acessar o seu Banco de dados.
-
-# Criar o Banco de dados
-CREATE DATABASE demo_park;
-
-# Alterar a configuração de conexão no arquivo 'application.yml' para o seu Banco de Dados:
-url: jdbc:mysql://localhost:3306/demo_park?useSSL=false&allowPublicKeyRetrieval=true&serverTimeZone=America/Manaus
-username: root
-password: root@pass
-```
-
-
-### Backend
-
-```
-# clonar repositório
+## Clonar repositório
 git clone https://github.com/erolkss/park-api.git
 
-# executar o projeto
+## Executar o projeto
+
+```
 ./mvnw spring-boot:run
 ```
-
-
-&nbsp;
-
 
 
 &nbsp;
